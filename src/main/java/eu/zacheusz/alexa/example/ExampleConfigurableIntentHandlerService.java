@@ -32,8 +32,8 @@ import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.IntentRequest;
 import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
-import eu.zacheusz.alexa.SessionStartedHandler;
-import eu.zacheusz.alexa.IntentHandler;
+import eu.zacheusz.alexa.handler.SessionStartedHandler;
+import eu.zacheusz.alexa.handler.IntentHandler;
 import org.apache.felix.scr.annotations.*;
 import org.apache.sling.commons.osgi.PropertiesUtil;
 
