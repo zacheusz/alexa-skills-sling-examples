@@ -54,7 +54,7 @@ public class ExampleSimpleIntentHandlerService implements IntentHandler {
     }
 
     @Override
-    public SpeechletResponse handle(final SpeechletRequestEnvelope<IntentRequest> requestEnvelope) {
+    public SpeechletResponse handleIntent(final SpeechletRequestEnvelope<IntentRequest> requestEnvelope) {
 
         final IntentRequest request = requestEnvelope.getRequest();
         final Intent intent = request.getIntent();

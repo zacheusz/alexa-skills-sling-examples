@@ -32,6 +32,7 @@ import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.IntentRequest;
 import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
+import eu.zacheusz.alexa.SessionStartedHandler;
 import eu.zacheusz.alexa.IntentHandler;
 import org.apache.felix.scr.annotations.*;
 import org.apache.sling.commons.osgi.PropertiesUtil;
@@ -76,7 +77,7 @@ public class ExampleConfigurableIntentHandlerService implements IntentHandler {
     }
 
     @Override
-    public SpeechletResponse handle(final SpeechletRequestEnvelope<IntentRequest> requestEnvelope) {
+    public SpeechletResponse handleIntent(final SpeechletRequestEnvelope<IntentRequest> requestEnvelope) {
 
         final IntentRequest request = requestEnvelope.getRequest();
         final Intent intent = request.getIntent();
