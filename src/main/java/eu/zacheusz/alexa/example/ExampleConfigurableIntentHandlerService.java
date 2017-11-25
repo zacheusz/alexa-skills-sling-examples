@@ -66,7 +66,10 @@ public class ExampleConfigurableIntentHandlerService implements IntentHandler {
     @Activate
     protected final void activate(final Map<String, Object> properties) throws Exception {
         final Object slotProperty = properties.get(SLOT_PROPERTY);
-        this.slotName = slotProperty == null ? null : slotProperty.toString();
+        if (slotProperty == null) {
+            throw new RuntimeException("Missing " + SLOT_PROPERTY + " OSGi configuration property.");
+        }
+        this.slotName = slotProperty.toString();
         this.intents =  Arrays.stream(PropertiesUtil.toStringArray(properties.get(INTENTS_PROPERTY)))
                 .collect(Collectors.toSet());
     }
