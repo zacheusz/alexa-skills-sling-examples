@@ -52,10 +52,10 @@ import static java.lang.String.format;
 public class ExampleConfigurableIntentHandlerService implements IntentHandler {
 
     @Property(unbounded = PropertyUnbounded.ARRAY, label = "Supported intents.",
-            value = {"changeChannel"})
+            value = {"myIntent1"})
     private static final String INTENTS_PROPERTY = "intents";
 
-    @Property(label = "Slot name.", value = "channel")
+    @Property(label = "Slot name.", value = "mySlot1")
     private static final String SLOT_PROPERTY = "slot";
 
     private Set<String> intents;
