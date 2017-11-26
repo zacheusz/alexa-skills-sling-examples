@@ -30,9 +30,15 @@ For more information, please refer to <http://unlicense.org/>
     <groupId>eu.zacheusz.sling.alexa</groupId>
     <artifactId>alexa-skills-sling-examples</artifactId>
     <packaging>bundle</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <name>alexa-skills-sling-examples</name>
     <description>eu.zacheusz.sling.alexa - alexa-skills-sling</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <alexa-skills-sling.version>1.1.0</alexa-skills-sling.version>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -66,12 +72,7 @@ For more information, please refer to <http://unlicense.org/>
             <plugin>
                 <groupId>org.apache.sling</groupId>
                 <artifactId>maven-sling-plugin</artifactId>
-                <version>2.1.2</version>
-                <configuration>
-                    <slingUrl>http://localhost:8080/system/console</slingUrl>
-                    <user>admin</user>
-                    <password>admin</password>
-                </configuration>
+                <version>2.3.2</version>
             </plugin>
         </plugins>
     </build>
@@ -79,7 +80,7 @@ For more information, please refer to <http://unlicense.org/>
         <dependency>
             <groupId>eu.zacheusz.sling.alexa</groupId>
             <artifactId>alexa-skills-sling</artifactId>
-            <version>1.1.0</version>
+            <version>${alexa-skills-sling.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -172,19 +173,33 @@ For more information, please refer to <http://unlicense.org/>
                                 <configuration>
                                     <!-- install to test AEM Server -->
                                     <slingUrl>http://${vm.host}:${vm.port}/apps/alexa/install</slingUrl>
-                                    <usePut>true</usePut>
+                                    <deploymentMethod>WebDAV</deploymentMethod>
                                     <user>${vm.username}</user>
                                     <password>${vm.password}</password>
                                 </configuration>
                             </execution>
-
+                            <execution>
+                                <id>install-dependency</id>
+                                <goals>
+                                    <goal>install-file</goal>
+                                </goals>
+                                <phase>install</phase>
+                                <configuration>
+                                    <!-- install dependency to test AEM Server -->
+                                    <slingUrl>http://${vm.host}:${vm.port}/apps/alexa/install</slingUrl>
+                                    <deploymentMethod>WebDAV</deploymentMethod>
+                                    <user>${vm.username}</user>
+                                    <password>${vm.password}</password>
+                                    <groupId>eu.zacheusz.sling.alexa</groupId>
+                                    <artifactId>alexa-skills-sling</artifactId>
+                                    <version>${alexa-skills-sling.version}</version>
+                                    <packaging>jar</packaging>
+                                </configuration>
+                            </execution>
                         </executions>
                     </plugin>
                 </plugins>
             </build>
         </profile>
     </profiles>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 </project>
