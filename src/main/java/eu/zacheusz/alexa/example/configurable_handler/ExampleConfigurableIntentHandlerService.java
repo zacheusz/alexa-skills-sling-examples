@@ -24,7 +24,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to <http://unlicense.org/>
  */
-package eu.zacheusz.alexa.example;
+package eu.zacheusz.alexa.example.configurable_handler;
 
 import com.amazon.speech.json.SpeechletRequestEnvelope;
 import com.amazon.speech.slu.Intent;
@@ -32,9 +32,15 @@ import com.amazon.speech.slu.Slot;
 import com.amazon.speech.speechlet.IntentRequest;
 import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
+import eu.zacheusz.alexa.handler.SessionStartedHandler;
 import eu.zacheusz.alexa.handler.IntentHandler;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.scr.annotations.*;
+import org.apache.sling.commons.osgi.PropertiesUtil;
+
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
@@ -43,14 +49,34 @@ import static java.lang.String.format;
  */
 @Component
 @Service(IntentHandler.class)
-public class ExampleSimpleIntentHandlerService implements IntentHandler {
+public class ExampleConfigurableIntentHandlerService implements IntentHandler {
 
-    private static final String SLOT_NAME = "mySlot";
-    private static final String INTENT_NAME = "myIntent";
+    @Property(unbounded = PropertyUnbounded.ARRAY, label = "Supported intents.",
+            value = {"myIntent1"})
+    private static final String INTENTS_PROPERTY = "intents";
+
+    @Property(label = "Slot name.", value = "mySlot1")
+    private static final String SLOT_PROPERTY = "slot";
+
+    private Set<String> intents;
+
+
+    private String slotName;
+
+    @Activate
+    protected final void activate(final Map<String, Object> properties) throws Exception {
+        final Object slotProperty = properties.get(SLOT_PROPERTY);
+        if (slotProperty == null) {
+            throw new RuntimeException("Missing " + SLOT_PROPERTY + " OSGi configuration property.");
+        }
+        this.slotName = slotProperty.toString();
+        this.intents =  Arrays.stream(PropertiesUtil.toStringArray(properties.get(INTENTS_PROPERTY)))
+                .collect(Collectors.toSet());
+    }
 
     @Override
     public boolean supportsIntent(String intentName) {
-        return INTENT_NAME.equals(intentName);
+        return this.intents.contains(intentName);
     }
 
     @Override
@@ -58,16 +84,16 @@ public class ExampleSimpleIntentHandlerService implements IntentHandler {
 
         final IntentRequest request = requestEnvelope.getRequest();
         final Intent intent = request.getIntent();
-        final Slot slot = intent.getSlot(SLOT_NAME);
+        final Slot slot = intent.getSlot(slotName);
 
         final String responseMessage;
         if (slot == null) {
             responseMessage = format(
-                    "I got your request, but there is no slot %",
-                    SLOT_NAME);
+                    "I got your request, but there is no slot %.",
+                    slotName);
         } else {
             responseMessage = format(
-                    "I got your request. Slot value is %s. Thanks!",
+                    "Hi. I got your request. Slot value is %s.",
                     slot.getValue());
         }
 

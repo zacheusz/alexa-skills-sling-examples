@@ -24,7 +24,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to <http://unlicense.org/>
  */
-package eu.zacheusz.alexa.example;
+package eu.zacheusz.alexa.example.full_livecycle_hanlder;
 
 import com.amazon.speech.json.SpeechletRequestEnvelope;
 import com.amazon.speech.slu.Intent;
