@@ -90,7 +90,7 @@ public class ExampleLivecycleIntentHandlerService
         if (StringUtils.isNotBlank(slotName)) {
             if (slot == null) {
                 responseMessage = format(
-                        "I got your request, but there is no slot %.",
+                        "I got your request, but there is no slot.",
                         slotName);
             } else {
                 responseMessage = format(
