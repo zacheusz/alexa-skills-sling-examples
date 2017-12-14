@@ -66,7 +66,7 @@ public class ExampleSpeechletOverrides implements SpeechletV2 {
         final String responseMessage;
         if (slot == null) {
             responseMessage = format(
-                    "I got your request for intent %s, but there is no slot ",
+                    "I got your request for intent %s, but there is no slot %s.",
                     intentName, SLOT_NAME);
         } else {
             final String value = slot.getValue();

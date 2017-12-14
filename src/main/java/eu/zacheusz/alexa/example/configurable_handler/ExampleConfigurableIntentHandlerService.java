@@ -89,7 +89,7 @@ public class ExampleConfigurableIntentHandlerService implements IntentHandler {
         final String responseMessage;
         if (slot == null ) {
             responseMessage = format(
-                    "I got your request, but there is no slot.",
+                    "I got your request, but there is no slot %s.",
                     slotName);
         } else {
             responseMessage = format(
